@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
@@ -81,19 +81,53 @@
         }).start();
     }, 5000);
 
-    const perguntas = [{ q: "Quem quase estragou nossa história?", opt: ["Alex", "Ana"], ans: 0 }, { q: "Quem mandou a frase: Se eu chegar e você não estiver, eu vou embora?", opt: ["Alex", "Ana"], ans: 1 }];
+        // Lógica do Quiz com todas as perguntas
+    const perguntas = [
+      { q: "Lá no dia 19 de dezembro, quem quase estragou a própria história de amor porque ia pro Itaim?", opt: ["O Alex", "A Ana"], ans: 0 },
+      { q: "Depois do primeiro beijo, quem teve pique para arrastar o outro para um forró até as 5 da manhã?", opt: ["Os dois", "Ninguém"], ans: 0 },
+      { q: "No dia 27, quem mandou a frase: 'Se eu chegar e você não estiver, eu vou embora'?", opt: ["O Alex", "A Ana"], ans: 1 },
+      { q: "Quem não vive sem a nossa ligação sagrada antes de dormir?", opt: ["O Alex", "A Ana"], ans: 0 },
+      { q: "Qual o momento exato em que a ficha caiu e eu me vi lascado?", opt: ["No forró", "Na esquina do Terminal Itaquera"], ans: 1 },
+      { q: "Minha maior ansiedade agora que vamos morar juntos?", opt: ["Poder te dar bom dia olhando nos seus olhos", "Não precisar mais dirigir para te ver"], ans: 0 },
+      { q: "O que significa viver o 'Segundo Amor' com você?", opt: ["Amar a versão divertida", "Escolher você mesmo nos dias difíceis"], ans: 1 },
+      { q: "Meu maior sonho de vida hoje?", opt: ["Viajar o mundo", "Casar perante a Deus"], ans: 1 }
+    ];
+
     let qIdx = 0;
-    function iniciarQuiz() { document.getElementById('tela-segundo').classList.remove('ativa'); document.getElementById('tela-quiz').classList.add('ativa'); renderQuiz(); }
+    function iniciarQuiz() { 
+      document.getElementById('tela-segundo').classList.remove('ativa'); 
+      document.getElementById('tela-quiz').classList.add('ativa'); 
+      renderQuiz(); 
+    }
+    
     function renderQuiz() {
-      if(qIdx >= perguntas.length) { document.getElementById('tela-quiz').classList.remove('ativa'); document.getElementById('tela-final').classList.add('ativa'); return; }
+      if(qIdx >= perguntas.length) { 
+        document.getElementById('tela-quiz').classList.remove('ativa'); 
+        document.getElementById('tela-final').classList.add('ativa'); 
+        return; 
+      }
+      
+      // Muda o título se for a parte séria (a partir da pergunta 4)
+      document.getElementById('quiz-titulo').innerText = qIdx < 4 ? "Um pouco sobre nós... 😂" : "Agora ficou sério... ❤️";
       document.getElementById('quiz-pergunta').innerText = perguntas[qIdx].q;
-      const optDiv = document.getElementById('quiz-opcoes'); optDiv.innerHTML = '';
+      
+      const optDiv = document.getElementById('quiz-opcoes'); 
+      optDiv.innerHTML = '';
+      
       perguntas[qIdx].opt.forEach((o, i) => {
-        const btn = document.createElement('button'); btn.className = 'quiz-btn'; btn.innerText = o;
-        btn.onclick = () => { if(i === perguntas[qIdx].ans) { qIdx++; renderQuiz(); } else { alert('Tenta de novo!'); } };
+        const btn = document.createElement('button'); 
+        btn.className = 'quiz-btn'; 
+        btn.innerText = o;
+        btn.onclick = () => { 
+          if(i === perguntas[qIdx].ans) { 
+            qIdx++; 
+            renderQuiz(); 
+          } else { 
+            btn.style.borderColor = 'red';
+            setTimeout(() => btn.style.borderColor = '#e63946', 500);
+          } 
+        };
         optDiv.appendChild(btn);
       });
     }
   </script>
-</body>
-</html>
