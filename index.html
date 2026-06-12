@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -15,46 +16,61 @@
     .ativa { display: flex; flex-direction: column; }
     .coracao-grande { width: 50%; max-width: 200px; animation: pulse 1.5s infinite; margin-top: 50px; }
     @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+    .contador { font-size: 3.5rem; font-weight: 700; margin: 20px 0; color: #fff; text-shadow: 0 0 10px rgba(230, 57, 70, 0.5); }
     .texto { max-width: 600px; font-size: 1.5rem; line-height: 1.8; color: #fff; margin-bottom: 50px; }
     .mensagem-escolha { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: #e63946; margin-top: 20vh; }
-    #btn-quiz { display: none; margin-bottom: 50px; padding: 15px 40px; background: #e63946; border: none; color: white; border-radius: 50px; font-size: 1.3rem; cursor: pointer; animation: pulse 2s infinite; }
+    .botao-estilizado { margin-top: 20px; margin-bottom: 50px; background: #e63946; border: none; padding: 15px 40px; border-radius: 50px; font-size: 1.2rem; color: white; font-weight: bold; cursor: pointer; animation: pulse 2s infinite; }
     .quiz-box { width: 90%; max-width: 500px; background: #222; padding: 30px; border-radius: 20px; box-shadow: 0 0 20px rgba(230, 57, 70, 0.3); }
     .quiz-btn { display: block; width: 100%; margin: 15px 0; padding: 18px; background: #333; border: 2px solid #e63946; color: white; border-radius: 15px; cursor: pointer; font-size: 1.1rem; }
-    #slider { width: 100%; height: 80vh; background-size: contain; background-repeat: no-repeat; background-position: center; opacity: 0; transition: opacity 1.5s ease-in-out; }
+    #foto-final { width: 90%; max-width: 400px; border-radius: 20px; opacity: 0; transition: opacity 2s ease-in-out; margin-top: 20px; }
   </style>
 </head>
 <body>
   <div class="stars" id="stars"></div>
+  
   <div id="tela-loading" class="tela ativa">
     <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Love_Heart_SVG.svg" class="coracao-grande">
     <p style="margin-top: 30px; font-size: 1.2rem;">Carregando nossa história...</p>
   </div>
+
+  <div id="tela-inicial" class="tela">
+    <h1 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: #e63946; margin-top: 50px;">Ana, já se passaram</h1>
+    <div id="contador" class="contador">0 dias</div>
+    <h2 style="font-weight: 300; font-size: 1.2rem; margin-bottom: 30px;">E a nossa história está só começando...</h2>
+    <button class="botao-estilizado" onclick="iniciarSurpresa()">Nossa História</button>
+  </div>
+
   <div id="tela-historia" class="tela">
     <div id="texto1" class="texto"></div>
   </div>
   <div id="tela-escolha" class="tela">
     <div class="mensagem-escolha">Sabe porque eu escolhi você?</div>
   </div>
+
   <div id="tela-segundo" class="tela">
     <div id="texto2" class="texto"></div>
-    <button id="btn-quiz" onclick="iniciarQuiz()">Vamos brincar?</button>
+    <button id="btn-quiz" class="botao-estilizado" style="display:none;" onclick="iniciarQuiz()">Vamos brincar?</button>
   </div>
+
   <div id="tela-quiz" class="tela">
     <div class="quiz-box">
-      <h2 id="quiz-titulo" style="font-family: 'Dancing Script', cursive; color: #e63946; margin-bottom: 25px;">Quiz</h2>
-      <div id="quiz-pergunta" style="margin-bottom: 25px; font-size: 1.2rem;"></div>
+      <h2 id="quiz-titulo" style="font-family: 'Dancing Script', cursive; color: #e63946; margin-bottom: 25px;">Quiz do Casal</h2>
+      <div id="quiz-pergunta" style="margin-bottom: 25px; font-size: 1.1rem; font-weight: 600;"></div>
       <div id="quiz-opcoes"></div>
     </div>
   </div>
+
   <div id="tela-final" class="tela">
-    <h2 style="font-size: 3rem;">Você acertou...</h2>
-    <p style="font-size: 1.5rem;">Porque a nossa história já estava traçada. Te amo pra caralho, minha nega.</p>
-  </div>
-  <div id="tela-galeria" class="tela">
-    <div id="slider"></div>
+    <h2 style="font-size: 2.5rem; color: #e63946;">Você acertou...</h2>
+    <p style="font-size: 1.3rem; text-align: center;">Porque a nossa história já estava traçada.</p>
+    <img id="foto-final" src="foto11.jpg" alt="Nossa foto">
+    <p style="font-size: 1.3rem; font-weight: bold; margin-top: 20px;">Te amo pra caralho, minha nega.</p>
   </div>
   <script>
-    const fotos = ["foto1.jpg", "foto2.jpg", "foto3.jpg"];
+    const dataInicio = new Date('2025-12-19');
+    const diasJuntos = Math.floor((new Date() - dataInicio) / (1000 * 60 * 60 * 24));
+    document.getElementById('contador').innerText = diasJuntos + " dias";
+
     const stars = document.getElementById('stars');
     for(let i=0; i<80; i++) {
       const s = document.createElement('div');
@@ -63,10 +79,18 @@
       s.style.setProperty('--duration', (Math.random()*3+1) + 's');
       stars.appendChild(s);
     }
-    const cfg = { delay: 120 };
-    setTimeout(() => {
-      document.getElementById('tela-loading').classList.remove('ativa');
+
+    window.onload = () => {
+      setTimeout(() => {
+        document.getElementById('tela-loading').classList.remove('ativa');
+        document.getElementById('tela-inicial').classList.add('ativa');
+      }, 5000);
+    };
+
+    function iniciarSurpresa() {
+      document.getElementById('tela-inicial').classList.remove('ativa');
       document.getElementById('tela-historia').classList.add('ativa');
+      const cfg = { delay: 120 };
       new Typewriter(document.getElementById('texto1'), cfg)
         .typeString("Dia 19 de dezembro, o dia em que fui presenteado por Deus... Naquela confraternização, não te notei, mas já estava traçada a nossa história. Sentado no barzinho, quando ficamos a sós, eu comecei a te enxergar... Você me encantou no primeiro instante.<br><br>A gente se beijou e ali eu já senti uma coisa inexplicável. Terminamos a noite num forró e, às cinco da manhã, eu já sabia que tinha esbarrado em alguém diferente. Mas a certeza de que eu estava apaixonado e lascado mesmo foi no dia 27, no Terminal Itaquera. Quando eu virei a esquina e te vi de longe, uma morena pequena, toda de preto... meu coração disparou. <br><br>Hoje, a nossa ligação antes de dormir virou o meu ritual sagrado. Ana, eu amo você e não vejo o meu futuro sem você. Meu maior sonho agora é construir a nossa vida e te esperar no altar para poder cuidar de você para sempre.")
         .pauseFor(5000).callFunction(() => {
@@ -80,23 +104,25 @@
               .callFunction(() => { document.getElementById('btn-quiz').style.display = 'block'; }).start();
           }, 3000);
         }).start();
-    }, 5000);
+    }
     const perguntas = [
-      { q: "Lá no dia 19 de dezembro, quem quase estragou a própria história de amor porque ia pro Itaim?", opt: ["O Alex", "A Ana"], ans: 0 },
-      { q: "Depois daquele primeiro beijo inexplicável, quem teve pique para arrastar o outro para um forró até as 5 da manhã?", opt: ["Os dois", "Ninguém"], ans: 0 },
-      { q: "No dia 27, quem mandou a famosa frase: 'Se eu chegar e você não estiver, eu vou embora'?", opt: ["O Alex", "A Ana"], ans: 1 },
-      { q: "Quem é que não consegue de jeito nenhum terminar o dia bem e ir dormir sem a sagrada ligação de boa noite?", opt: ["O Alex", "A Ana"], ans: 0 },
-      { q: "O Momento da Verdade: Qual foi o exato momento em que a ficha caiu e eu tive a certeza absoluta de que estava lascado por você?", opt: ["No forró", "Terminal Itaquera"], ans: 1 },
-      { q: "O Nosso Lar: Qual é a minha maior ansiedade agora que vamos morar juntos?", opt: ["Poder te dar bom dia olhando nos seus olhos", "Não precisar mais dirigir"], ans: 0 },
-      { q: "O Segundo Amor: O que significa viver o 'Segundo Amor' com você?", opt: ["Amar a versão divertida", "Escolher você mesmo nos dias difíceis"], ans: 1 },
-      { q: "O Futuro: Qual é o meu maior sonho de vida hoje?", opt: ["Viajar o mundo", "Casar perante a Deus"], ans: 1 }
+      { q: "Lá no dia 19 de dezembro, quem quase estragou a nossa história porque ia pro Itaim?", opt: ["O Alex", "A Ana"], ans: 0 },
+      { q: "Depois do beijo, quem teve pique para arrastar o outro para um forró até as 5 da manhã?", opt: ["Os dois", "Ninguém"], ans: 0 },
+      { q: "No dia 27, quem mandou a frase: 'Se eu chegar e você não estiver, eu vou embora'?", opt: ["O Alex", "A Ana"], ans: 1 },
+      { q: "Quem não vive sem a nossa ligação sagrada antes de dormir?", opt: ["O Alex", "A Ana"], ans: 0 },
+      { q: "Qual o momento exato em que a ficha caiu e eu me vi lascado?", opt: ["No forró", "Terminal Itaquera"], ans: 1 },
+      { q: "Minha maior ansiedade agora que vamos morar juntos?", opt: ["Poder te dar bom dia nos olhos", "Não precisar mais dirigir"], ans: 0 },
+      { q: "O que significa viver o 'Segundo Amor' com você?", opt: ["Amar a versão divertida", "Escolher você nos dias difíceis"], ans: 1 },
+      { q: "Meu maior sonho de vida hoje?", opt: ["Viajar o mundo", "Casar perante a Deus"], ans: 1 }
     ];
+
     let qIdx = 0;
     function iniciarQuiz() { document.getElementById('tela-segundo').classList.remove('ativa'); document.getElementById('tela-quiz').classList.add('ativa'); renderQuiz(); }
     function renderQuiz() {
       if(qIdx >= perguntas.length) { 
-        document.getElementById('tela-quiz').classList.remove('ativa'); document.getElementById('tela-final').classList.add('ativa');
-        setTimeout(() => { document.getElementById('tela-final').classList.remove('ativa'); document.getElementById('tela-galeria').classList.add('ativa'); startGal(); }, 4000);
+        document.getElementById('tela-quiz').classList.remove('ativa'); 
+        document.getElementById('tela-final').classList.add('ativa');
+        setTimeout(() => { document.getElementById('foto-final').style.opacity = '1'; }, 500);
         return; 
       }
       document.getElementById('quiz-pergunta').innerText = perguntas[qIdx].q;
@@ -106,13 +132,6 @@
         b.onclick = () => { if(i === perguntas[qIdx].ans) { qIdx++; renderQuiz(); } else { alert('Tenta de novo!'); } }; 
         d.appendChild(b); 
       });
-    }
-    function startGal() {
-      let i = 0; const s = document.getElementById('slider');
-      setInterval(() => {
-        s.style.opacity = 0;
-        setTimeout(() => { s.style.backgroundImage = `url(${fotos[i]})`; s.style.opacity = 1; i = (i + 1) % fotos.length; }, 1000);
-      }, 4000);
     }
   </script>
 </body>
