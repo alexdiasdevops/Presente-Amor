@@ -27,6 +27,11 @@
 <body>
   <div class="stars" id="stars"></div>
   
+  <!-- Elemento de áudio -->
+  <audio id="musicaFundo" loop>
+    <source src="Misic-amor.mp3" type="audio/mpeg">
+  </audio>
+  
   <div id="tela-loading" class="tela ativa">
     <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Love_Heart_SVG.svg" class="coracao-grande">
     <p style="margin-top: 30px; font-size: 1.2rem;">Carregando nossa história...</p>
@@ -36,7 +41,7 @@
     <h1 style="font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: #e63946; margin-top: 50px;">Ana, já se passaram</h1>
     <div id="contador" class="contador">0 dias</div>
     <h2 style="font-weight: 300; font-size: 1.2rem; margin-bottom: 30px;">E a nossa história está só começando...</h2>
-    <button class="botao-estilizado" onclick="iniciarSurpresa()">Nossa História</button>
+    <button class="botao-estilizado" onclick="iniciarTudo()">Nossa História</button>
   </div>
 
   <div id="tela-historia" class="tela">
@@ -61,6 +66,7 @@
 
   <div id="tela-final" class="tela">
     <h2 style="font-size: 2.5rem; color: #e63946;">Você acertou...</h2>
+    <p style="font-size: 1.3rem; text-align: center;">Porque a nossa história já estava traçada.</p>
     <img id="foto-final" src="foto11.png" alt="Nossa foto">
     <p style="font-size: 1.3rem; font-weight: bold; margin-top: 20px;">Te amo pra caralho minha nega</p>
   </div>
@@ -84,6 +90,12 @@
         document.getElementById('tela-inicial').classList.add('ativa');
       }, 5000);
     };
+
+    function iniciarTudo() {
+      // Inicia música e a história
+      document.getElementById('musicaFundo').play();
+      iniciarSurpresa();
+    }
 
     function iniciarSurpresa() {
       document.getElementById('tela-inicial').classList.remove('ativa');
