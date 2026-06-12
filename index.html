@@ -1,318 +1,107 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nossa História</title>
-  
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
-
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Montserrat', sans-serif; background-color: #111; color: white; overflow: hidden; }
-    
-    .container { width: 100vw; height: 100vh; position: relative; }
-    .tela { 
-      width: 100%; height: 100%; display: none; flex-direction: column; 
-      justify-content: center; align-items: center; text-align: center; padding: 20px;
-      position: absolute; top: 0; left: 0; overflow-y: auto;
-    }
-    .tela.ativa { display: flex; animation: fadeIn 1.5s ease-in; }
-
-    /* TELAS DE FUNDO */
-    #tela-loading { background: #0a0a0a; z-index: 20; }
-    #tela-inicial { background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); z-index: 10; }
-    #tela-historia { background-size: cover; background-position: center; transition: background-image 1.5s ease-in-out; z-index: 9; }
-    #tela-segundo-amor, #tela-quiz, #tela-quiz-transition, #tela-final { background: #0a0a0a; z-index: 8; }
-
-    /* TEXTOS E ELEMENTOS */
-    h1 { font-family: 'Dancing Script', cursive; font-size: 3rem; margin-bottom: 10px; color: #e63946; }
-    h2 { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: #e63946; margin-bottom: 15px; }
-    p { font-size: 1rem; max-width: 600px; margin-bottom: 15px; line-height: 1.5; text-align: justify; padding: 0 10px; }
-    
-    .contador { font-size: 3.5rem; font-weight: 700; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-    .coracao-pulsante { font-size: 50px; color: #e63946; animation: pulse 1s infinite; margin: 20px 0; }
-    .overlay-escuro { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.65); z-index: 1; }
-    .texto-maquina { z-index: 2; font-size: 1.5rem; max-width: 800px; line-height: 1.6; text-shadow: 2px 2px 8px rgba(0,0,0,0.8); padding: 20px; }
-
-    /* BOTÕES */
-    .botao-coracao {
-      margin-top: 20px; background: #e63946; border: none; padding: 15px 30px;
-      border-radius: 50px; display: flex; align-items: center; gap: 10px; justify-content: center;
-      font-size: 1.2rem; color: white; font-weight: bold; cursor: pointer;
-      box-shadow: 0 0 15px rgba(230, 57, 70, 0.5); animation: pulse 1.5s infinite;
-    }
-
-    /* QUIZ */
-    .quiz-box { width: 100%; max-width: 500px; background: #1a1a1a; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-    .quiz-pergunta { font-size: 1.1rem; margin-bottom: 20px; font-weight: 600; }
-    .quiz-btn {
-      display: block; width: 100%; margin: 10px 0; padding: 15px;
-      background: rgba(255, 255, 255, 0.05); border: 1px solid #e63946;
-      color: white; border-radius: 10px; font-size: 1rem; cursor: pointer;
-      transition: all 0.3s;
-    }
-    .quiz-btn:active { transform: scale(0.98); }
-
-    /* ANIMAÇÕES */
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-    @keyframes shake {
-      0% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      50% { transform: translateX(5px); }
-      75% { transform: translateX(-5px); }
-      100% { transform: translateX(0); }
-    }
-    .shake { animation: shake 0.4s; border-color: #ff0000 !important; }
+    body { margin: 0; background: #000; color: white; font-family: 'Montserrat', sans-serif; overflow: hidden; }
+    .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+    .star { position: absolute; background: white; border-radius: 50%; opacity: 0.5; animation: twinkle var(--duration) infinite; }
+    @keyframes twinkle { 0%, 100% { opacity: 0.2; } 50% { opacity: 1; } }
+    .tela { display: none; position: absolute; width: 100%; height: 100%; align-items: center; justify-content: center; z-index: 1; padding: 20px; }
+    .ativa { display: flex; flex-direction: column; }
+    .coracao-grande { width: 50%; max-width: 250px; animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+    .texto { max-width: 700px; font-size: 1.3rem; line-height: 1.6; text-align: center; color: #fff; }
+    .mensagem-escolha { font-family: 'Dancing Script', cursive; font-size: 3rem; color: #e63946; text-align: center; }
+    .botao-quiz { margin-top: 30px; padding: 15px 30px; background: #e63946; border: none; color: white; border-radius: 50px; font-size: 1.2rem; cursor: pointer; animation: pulse 2s infinite; }
+    .quiz-box { width: 100%; max-width: 500px; background: #1a1a1a; padding: 20px; border-radius: 15px; }
+    .quiz-btn { display: block; width: 100%; margin: 10px 0; padding: 15px; background: #333; border: 1px solid #e63946; color: white; border-radius: 10px; cursor: pointer; }
   </style>
 </head>
 <body>
+  <div class="stars" id="stars"></div>
 
-  <div class="container">
-    
-    <audio id="meuAudio" src="narracao.mp3"></audio>
-
-    <!-- TELA 0: LOADING -->
-    <div id="tela-loading" class="tela ativa">
-      <i class="fa-solid fa-heart coracao-pulsante"></i>
-      <h3 style="font-weight: 300; margin-top: 20px;">Carregando a nossa história...</h3>
-    </div>
-
-    <!-- TELA 1: INÍCIO -->
-    <div id="tela-inicial" class="tela">
-      <h1>Ana, já se passaram</h1>
-      <div id="contador" class="contador">0 dias</div>
-      <h2>E a nossa história está só começando...</h2>
-      
-      <button class="botao-coracao" onclick="iniciarSurpresa()">
-        <i class="fa-solid fa-play"></i>
-        <span>Nossa História</span>
-      </button>
-    </div>
-
-    <!-- TELA 2: NARRAÇÃO E FOTOS -->
-    <div id="tela-historia" class="tela">
-      <div class="overlay-escuro"></div>
-      <div id="texto-maquina" class="texto-maquina"></div>
-    </div>
-
-    <!-- TELA 3: O SEGUNDO AMOR -->
-    <div id="tela-segundo-amor" class="tela">
-      <h2>O Segundo Amor</h2>
-      <p>Amor, quando a gente realmente ama alguém, acaba amando essa pessoa duas vezes.</p>
-      <p>A primeira vez é fácil: você se apaixona pelo sorriso, pelas piadas, pelo jeito leve de viver. Ama a versão divertida, a que todos conhecem, a que não exige esforço, a que parece perfeita e simples.</p>
-      <p>Mas com o tempo você percebe o resto. As inseguranças que ela esconde, os traumas que carrega em silêncio, o jeito como reage ao medo e ao estresse, os lados difíceis de lidar. É nesse momento que muitos vão embora, quando deixa de ser diversão e começa a ser real.</p>
-      <p>Mas, se você escolhe ficar, depois de conhecer defeitos e falhas, se entende que amar é atravessar momentos difíceis... nasce o segundo amor. E esse é o que importa de verdade. O primeiro amor simplesmente acontece, mas o segundo é uma escolha. É decidir ficar mesmo quando tudo parece pesado.</p>
-      <p>Porque amor verdadeiro não é só um sentimento, é uma decisão que se renova todos os dias. É um amor que se constrói na paciência, na compreensão, na aceitação das imperfeições. É um amor que escolhe crescer junto. Eu ainda te vejo com os mesmos olhos daquele dia no terminal.</p>
-      <p>Eu quero que você saiba que eu já vivo esse segundo amor por você. Eu nunca vou desistir de nós e da nossa vida juntos.</p>
-      
-      <button class="botao-coracao" onclick="iniciarQuiz()" style="margin-top: 30px;">
-        <i class="fa-solid fa-gamepad"></i>
-        <span>Agora vamos jogar um pouco, amor...</span>
-      </button>
-    </div>
-
-    <!-- TELA 4: TRANSIÇÃO DO QUIZ -->
-    <div id="tela-quiz-transition" class="tela">
-      <h2>Agora as perguntas ficaram mais sérias, Neguinha...</h2>
-      <i class="fa-solid fa-heart coracao-pulsante" style="color: #555;"></i>
-    </div>
-
-    <!-- TELA 5: QUIZ INTERATIVO -->
-    <div id="tela-quiz" class="tela">
-      <div class="quiz-box">
-        <h2 id="quiz-titulo" style="font-size: 2rem;">Quiz do Casal</h2>
-        <div id="quiz-pergunta" class="quiz-pergunta">Pergunta vai aqui...</div>
-        <div id="quiz-opcoes">
-          <!-- Botões injetados via JS -->
-        </div>
-      </div>
-    </div>
-
-    <!-- TELA 6: FINAL -->
-    <div id="tela-final" class="tela">
-      <i class="fa-solid fa-heart coracao-pulsante" style="font-size: 80px;"></i>
-      <h2 style="font-size: 3rem; margin-top: 20px;">Você acertou...</h2>
-      <p style="text-align: center; font-size: 1.2rem;">porque a nossa história já estava traçada.</p>
-      <p style="text-align: center; font-size: 1.2rem;">Você é a mulher da minha vida.</p>
-      <h3 style="color: #e63946; font-family: 'Dancing Script', cursive; font-size: 2.5rem; margin-top: 20px;">Feliz Dia dos Namorados!</h3>
-      <div style="font-size: 1.2rem; font-weight: bold; margin-top: 15px; color: #fff;">Te amo pra caralho, minha nega.</div>
-    </div>
-
+  <!-- TELAS -->
+  <div id="tela-loading" class="tela ativa">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Love_Heart_SVG.svg" class="coracao-grande">
+    <p style="margin-top: 20px;">Carregando nossa história...</p>
   </div>
 
+  <div id="tela-historia" class="tela">
+    <div id="texto1" class="texto"></div>
+  </div>
+
+  <div id="tela-escolha" class="tela">
+    <div class="mensagem-escolha">Sabe porque eu escolhi você?</div>
+  </div>
+
+  <div id="tela-segundo" class="tela">
+    <div id="texto2" class="texto"></div>
+    <button class="botao-quiz" onclick="iniciarQuiz()">Começar Quiz</button>
+  </div>
+
+  <div id="tela-quiz" class="tela">
+    <div class="quiz-box">
+      <h2 id="quiz-titulo" style="font-family: 'Dancing Script', cursive; color: #e63946; margin-bottom: 20px;">Quiz</h2>
+      <div id="quiz-pergunta" style="margin-bottom: 20px;"></div>
+      <div id="quiz-opcoes"></div>
+    </div>
+  </div>
+
+  <div id="tela-final" class="tela">
+    <h2 style="font-size: 3rem;">Você acertou...</h2>
+    <p>Porque a nossa história já estava traçada.</p>
+    <h3 style="color: #e63946; margin-top: 20px;">Feliz Dia dos Namorados!</h3>
+    <p>Te amo pra caralho, minha nega.</p>
+  </div>
   <script>
-    // --- LISTA DE FOTOS ---
-    const fotos = [
-      "foto1.jpg",
-      "foto2.jpg",
-      "foto3.jpg"
-    ];
-
-    // --- LÓGICA DE DATAS (A partir de 19/12/2025) ---
-    const dataInicio = new Date('2025-12-19');
-    const diasJuntos = Math.floor((new Date() - dataInicio) / (1000 * 60 * 60 * 24));
-    document.getElementById('contador').innerText = diasJuntos + " dias";
-
-    // --- TELA DE LOADING (Soma após 5 segundos) ---
-    window.onload = () => {
-      setTimeout(() => {
-        mudarTela('tela-loading', 'tela-inicial');
-      }, 5000);
-    };
-
-    // --- VARIÁVEIS GLOBAIS ---
-    let fotoAtual = 0;
-    let intervaloFotos;
-    const audio = document.getElementById('meuAudio');
-
-    // --- FUNÇÃO DE TRANSIÇÃO DE TELAS ---
-    function mudarTela(idAtual, idNova) {
-      document.getElementById(idAtual).classList.remove('ativa');
-      document.getElementById(idNova).classList.add('ativa');
+    const stars = document.getElementById('stars');
+    for(let i=0; i<80; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      s.style.left = Math.random()*100 + '%'; s.style.top = Math.random()*100 + '%';
+      s.style.width = s.style.height = Math.random()*3 + 'px';
+      s.style.setProperty('--duration', (Math.random()*3+1) + 's');
+      stars.appendChild(s);
     }
 
-    // --- START DA SURPRESA (Áudio e Máquina de Escrever) ---
-    function iniciarSurpresa() {
-      mudarTela('tela-inicial', 'tela-historia');
-      audio.play();
-
-      const telaHistoria = document.getElementById('tela-historia');
-      if(fotos.length > 0 && fotos[0] !== "foto1.jpg") {
-          telaHistoria.style.backgroundImage = `url(${fotos[fotoAtual]})`;
-          intervaloFotos = setInterval(() => {
-            fotoAtual = (fotoAtual + 1) % fotos.length;
-            telaHistoria.style.backgroundImage = `url(${fotos[fotoAtual]})`;
-          }, 3500);
-      }
-
-      const elementoTexto = document.getElementById('texto-maquina');
-      const typewriter = new Typewriter(elementoTexto, { delay: 50 });
-
-      typewriter
-        .pauseFor(1000)
-        .typeString('O dia 19 de dezembro foi apenas o começo...')
+    setTimeout(() => {
+      document.getElementById('tela-loading').classList.remove('ativa');
+      document.getElementById('tela-historia').classList.add('ativa');
+      const t1 = new Typewriter(document.getElementById('texto1'), { delay: 40 });
+      t1.typeString("Dia 19 de dezembro, o dia em que fui presenteado por Deus. Naquela confraternização, não te notei, mas já estava traçada a nossa história. Sentado no barzinho, quando ficamos a sós, eu comecei a te enxergar... Você me encantou no primeiro instante.<br><br>A gente se beijou e ali eu já senti uma coisa inexplicável. Mas a certeza de que eu estava apaixonado e lascado mesmo foi no dia 27, no Terminal Itaquera. Quando eu virei a esquina e te vi de longe, uma morena pequena, toda de preto... meu coração disparou.<br><br>Hoje, a nossa ligação antes de dormir virou o meu ritual sagrado. Ana, eu amo você e não vejo o meu futuro sem você. Meu maior sonho agora é construir a nossa vida e te esperar no altar para poder cuidar de você para sempre.")
         .pauseFor(2000)
-        .typeString('<br/><br/>Deus já tinha traçado a nossa história.')
-        .pauseFor(2000)
-        .typeString('<br/><br/>E no dia 27, eu tive a certeza de que o meu coração já era seu.')
-        .start();
-    }
+        .callFunction(() => {
+          document.getElementById('tela-historia').classList.remove('ativa');
+          document.getElementById('tela-escolha').classList.add('ativa');
+          setTimeout(() => {
+            document.getElementById('tela-escolha').classList.remove('ativa');
+            document.getElementById('tela-segundo').classList.add('ativa');
+            new Typewriter(document.getElementById('texto2'), { delay: 40 }).typeString("Amor, quando a gente realmente ama alguém, acaba amando essa pessoa duas vezes.<br><br>A primeira vez é fácil: você se apaixona pelo sorriso, pelo jeito leve de viver. Mas com o tempo você percebe o resto. As inseguranças, os traumas, os medos. É nesse momento que muitos vão embora.<br><br>Mas, se você fica, se escolhe mesmo depois de conhecer defeitos e falhas, nasce o segundo amor. O primeiro amor simplesmente acontece, mas o segundo é uma escolha.<br><br>Eu quero que você saiba que eu já vivo esse segundo amor por você. Eu nunca vou desistir de nós e da nossa vida juntos.<br><br>Feliz Dia dos Namorados, meu amor.").start();
+          }, 3000);
+        }).start();
+    }, 5000);
 
-    // Fim do áudio -> Vai para o texto "Segundo Amor"
-    audio.onended = function() {
-      clearInterval(intervaloFotos);
-      mudarTela('tela-historia', 'tela-segundo-amor');
-    };
-
-    // --- LÓGICA DO QUIZ ---
-    const perguntasQuiz = [
-      { // 0
-        q: "Lá no dia 19 de dezembro, quem quase estragou a própria história de amor porque ia pro Itaim com o Pão?",
-        opt: ["O Alex, que não sabia o que estava perdendo.", "A Ana, que já estava de olho e armou tudo."],
-        ans: 0
-      },
-      { // 1
-        q: "Depois daquele primeiro beijo inexplicável, quem teve pique para arrastar o outro para um forró até as 5 da manhã?",
-        opt: ["Os dois, porque a química bateu muito forte.", "Nenhum dos dois, foi puro milagre estarmos acordados."],
-        ans: 0
-      },
-      { // 2
-        q: "No dia 27, quem mandou a famosa frase: 'Se eu chegar e você não estiver, eu vou embora'?",
-        opt: ["O emocionado do Alex, morrendo de ansiedade.", "A morena pequena, toda de preto e cheia de marra."],
-        ans: 1
-      },
-      { // 3
-        q: "Quem é que não consegue de jeito nenhum terminar o dia bem e ir dormir sem a sagrada ligação de boa noite?",
-        opt: ["O Alex, completamente rendido.", "A Ana, que se faz de durona mas não vive sem."],
-        ans: 0
-      },
-      { // 4 (Séria)
-        q: "O Momento da Verdade: Qual foi o exato momento em que a ficha caiu e eu tive a certeza absoluta de que estava lascado por você?",
-        opt: ["Às 5 da manhã, saindo daquele forró depois do nosso primeiro beijo inexplicável.", "Quando virei a esquina no Terminal Itaquera e te vi toda de preto me esperando."],
-        ans: 1
-      },
-      { // 5 (Séria)
-        q: "O Nosso Lar: Qual é a minha maior ansiedade agora que vamos morar juntos?",
-        opt: ["Saber que a ligação de boa noite vai acabar, porque vou poder te dar bom dia olhando nos seus olhos.", "A comodidade de não ter que dirigir para ir te ver e ter as coisas arrumadas."],
-        ans: 0
-      },
-      { // 6 (Séria)
-        q: "O Segundo Amor: O que significa viver o 'Segundo Amor' com você?",
-        opt: ["Amar a sua versão mais leve e divertida, sabendo que os dias bons sempre vão superar os ruins.", "Escolher você todos os dias, decidindo ficar mesmo quando tudo parece pesado."],
-        ans: 1
-      },
-      { // 7 (Séria)
-        q: "O Futuro: Qual é o meu maior sonho de vida hoje?",
-        opt: ["Transformar a nossa casa no nosso lar definitivo e viajar o mundo do seu lado.", "Construir a nossa vida juntos e te esperar no altar da igreja para casar com você."],
-        ans: 1
-      }
+    const perguntas = [
+      { q: "Quem quase estragou nossa história por causa do Itaim?", opt: ["Alex", "Ana"], ans: 0 },
+      { q: "Quem mandou a frase: Se eu chegar e você não estiver, eu vou embora?", opt: ["Alex", "Ana"], ans: 1 },
+      { q: "O momento que a ficha caiu e eu me vi lascado?", opt: ["Forró 5 da manhã", "Esquina Terminal Itaquera"], ans: 1 }
     ];
-
-    let quizAtual = 0;
-
-    function iniciarQuiz() {
-      mudarTela('tela-segundo-amor', 'tela-quiz');
-      renderizarQuiz();
-    }
-
-    function renderizarQuiz() {
-      // Transição para as perguntas sérias
-      if (quizAtual === 4) {
-        mudarTela('tela-quiz', 'tela-quiz-transition');
-        setTimeout(() => {
-          mudarTela('tela-quiz-transition', 'tela-quiz');
-          montarPergunta();
-        }, 3500);
-        return;
-      }
-
-      // Fim do Quiz
-      if (quizAtual >= perguntasQuiz.length) {
-        mudarTela('tela-quiz', 'tela-final');
-        return;
-      }
-
-      montarPergunta();
-    }
-
-    function montarPergunta() {
-      const obj = perguntasQuiz[quizAtual];
-      document.getElementById('quiz-titulo').innerText = quizAtual < 4 ? "Um pouco sobre nós... 😂" : "O Nosso Futuro... ❤️";
-      document.getElementById('quiz-pergunta').innerText = obj.q;
-      
-      const divOpcoes = document.getElementById('quiz-opcoes');
-      divOpcoes.innerHTML = ''; // Limpa opções anteriores
-      
-      obj.opt.forEach((texto, index) => {
-        const btn = document.createElement('button');
-        btn.className = 'quiz-btn';
-        btn.innerText = texto;
-        btn.onclick = () => checarResposta(index, btn);
-        divOpcoes.appendChild(btn);
+    let qIdx = 0;
+    function iniciarQuiz() { document.getElementById('tela-segundo').classList.remove('ativa'); document.getElementById('tela-quiz').classList.add('ativa'); renderQuiz(); }
+    function renderQuiz() {
+      if(qIdx >= perguntas.length) { document.getElementById('tela-quiz').classList.remove('ativa'); document.getElementById('tela-final').classList.add('ativa'); return; }
+      document.getElementById('quiz-pergunta').innerText = perguntas[qIdx].q;
+      const optDiv = document.getElementById('quiz-opcoes'); optDiv.innerHTML = '';
+      perguntas[qIdx].opt.forEach((o, i) => {
+        const btn = document.createElement('button'); btn.className = 'quiz-btn'; btn.innerText = o;
+        btn.onclick = () => { if(i === perguntas[qIdx].ans) { qIdx++; renderQuiz(); } else { alert('Tenta de novo!'); } };
+        optDiv.appendChild(btn);
       });
-    }
-
-    function checarResposta(index, btnClicado) {
-      const certa = perguntasQuiz[quizAtual].ans;
-      
-      if (index === certa) {
-        btnClicado.style.background = "#2a9d8f"; // Verde
-        btnClicado.style.borderColor = "#2a9d8f";
-        setTimeout(() => {
-          quizAtual++;
-          renderizarQuiz();
-        }, 800);
-      } else {
-        btnClicado.classList.add('shake');
-        setTimeout(() => {
-          btnClicado.classList.remove('shake');
-        }, 400);
-      }
     }
   </script>
 </body>
