@@ -100,10 +100,29 @@
         optDiv.appendChild(btn);
       });
     }
-    function startGaleria() {
-      let i = 0; const s = document.getElementById('slider');
-      setInterval(() => { s.style.backgroundImage = `url(${fotos[i]})`; i = (i + 1) % fotos.length; }, 2500);
+        function startGaleria() {
+      let i = 0; 
+      const s = document.getElementById('slider');
+      
+      // Função que troca a foto com um tempo maior e garante a exibição
+      function trocarFoto() {
+        s.style.backgroundImage = `url(${fotos[i]})`;
+        s.style.opacity = 0; // Começa invisível
+        
+        // Efeito de transição suave
+        s.style.transition = "opacity 1s ease-in-out";
+        
+        // Pequeno atraso para o navegador "ver" a imagem e depois subir a opacidade
+        setTimeout(() => {
+          s.style.opacity = 1;
+        }, 50);
+
+        i = (i + 1) % fotos.length;
+      }
+
+      // Chama a primeira imediatamente
+      trocarFoto();
+      
+      // Define o intervalo de 3 segundos (3000ms)
+      setInterval(trocarFoto, 3000);
     }
-  </script>
-</body>
-</html>
