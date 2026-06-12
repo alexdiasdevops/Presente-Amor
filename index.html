@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nossa História</title>
+  
+  <!-- Fontes e Ícones -->
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Montserrat', sans-serif; background-color: #111; color: white; overflow: hidden; }
+    
+    .container { width: 100vw; height: 100vh; position: relative; }
+    .tela { 
+      width: 100%; height: 100%; display: none; flex-direction: column; 
+      justify-content: center; align-items: center; text-align: center; padding: 20px;
+      position: absolute; top: 0; left: 0;
+    }
+    .tela.ativa { display: flex; animation: fadeIn 2s ease-in; }
+
+    /* TELA 1 */
+    #tela-inicial { background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); z-index: 10; }
+    h1 { font-family: 'Dancing Script', cursive; font-size: 3rem; margin-bottom: 10px; color: #e63946; }
+    .contador { font-size: 3.5rem; font-weight: 700; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+    
+    .botao-coracao {
+      margin-top: 40px; background: #e63946; border: none; padding: 15px 30px;
+      border-radius: 50px; display: flex; align-items: center; gap: 10px;
+      font-size: 1.2rem; color: white; font-weight: bold; cursor: pointer;
+      box-shadow: 0 0 15px rgba(230, 57, 70, 0.5); animation: pulse 1.5s infinite;
+    }
+
+    /* TELA 2 */
+    #tela-historia {
+      background-size: cover; background-position: center;
+      transition: background-image 1.5s ease-in-out; z-index: 9;
+    }
+    .overlay-escuro {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.65); z-index: 1;
+    }
+    .texto-maquina {
+      z-index: 2; font-size: 1.5rem; max-width: 800px; line-height: 1.6;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.8); padding: 20px;
+    }
+
+    /* TELA 3 */
+    #tela-futuro { background: #000; z-index: 8; }
+    #tela-futuro h2 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; color: #e63946; margin-bottom: 20px; }
+    #tela-futuro p { font-size: 1.2rem; max-width: 600px; margin-bottom: 20px; line-height: 1.5; }
+    .coracao-pulsante { font-size: 50px; color: #e63946; animation: pulse 1s infinite; margin-top: 30px; }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- ARQUIVO DE ÁUDIO -->
+    <audio id="meuAudio" src="narracao.mp3"></audio>
+
+    <!-- TELA 1: INÍCIO -->
+    <div id="tela-inicial" class="tela ativa">
+      <h1>Ana, já se passaram</h1>
+      <div id="contador" class="contador">0 dias</div>
+      <h2>E a nossa história está só começando...</h2>
+      
+      <button class="botao-coracao" onclick="iniciarSurpresa()">
+        <i class="fa-solid fa-heart"></i>
+        <span>Nossa História</span>
+      </button>
+    </div>
+
+    <!-- TELA 2: NARRAÇÃO E FOTOS -->
+    <div id="tela-historia" class="tela">
+      <div class="overlay-escuro"></div>
+      <div id="texto-maquina" class="texto-maquina"></div>
+    </div>
+
+    <!-- TELA 3: O FUTURO -->
+    <div id="tela-futuro" class="tela">
+      <h2>Eu nunca vou desistir de nós.</h2>
+      <p>O que temos é precioso demais. Agora, indo para a nossa casa em São Mateus, juntando o Miguel, o Gael e a Heloa, eu tenho certeza de que a nossa família é o meu maior projeto de vida.</p>
+      <p>Feliz Dia dos Namorados, meu amor.</p>
+      <i class="fa-solid fa-heart coracao-pulsante"></i>
+    </div>
+
+  </div>
+
+  <script>
+    // --- LISTA DE FOTOS ---
+    // Adicione os links das 34 fotos abaixo, sempre entre aspas e separados por vírgula
+    const fotos = [
+      "URL_DA_FOTO_1.jpg",
+      "URL_DA_FOTO_2.jpg",
+      "URL_DA_FOTO_3.jpg"
+    ];
+
+    // --- LÓGICA DO CONTADOR ---
+    // Coloque a data que vocês começaram a namorar (Ano-Mês-Dia)
+    const dataInicio = new Date('2020-01-01');
+    const diasJuntos = Math.floor((new Date() - dataInicio) / (1000 * 60 * 60 * 24));
+    document.getElementById('contador').innerText = diasJuntos + " dias";
+
+    // --- CONTROLES DE TELA E ÁUDIO ---
+    let fotoAtual = 0;
+    let intervaloFotos;
+    const audio = document.getElementById('meuAudio');
+
+    function iniciarSurpresa() {
+      // Troca de tela
+      document.getElementById('tela-inicial').classList.remove('ativa');
+      document.getElementById('tela-historia').classList.add('ativa');
+      
+      // Toca o áudio
+      audio.play();
+
+      // Define a primeira foto e inicia o slideshow (3.5 segundos = 3500ms)
+      const telaHistoria = document.getElementById('tela-historia');
+      if(fotos.length > 0 && fotos[0] !== "URL_DA_FOTO_1.jpg") {
+          telaHistoria.style.backgroundImage = `url(${fotos[fotoAtual]})`;
+          intervaloFotos = setInterval(() => {
+            fotoAtual = (fotoAtual + 1) % fotos.length;
+            telaHistoria.style.backgroundImage = `url(${fotos[fotoAtual]})`;
+          }, 3500);
+      }
+
+      // Inicia o efeito de digitação do texto
+      const elementoTexto = document.getElementById('texto-maquina');
+      const typewriter = new Typewriter(elementoTexto, { delay: 50 });
+
+      typewriter
+        .pauseFor(1000)
+        .typeString('Cada foto nossa conta um pedaço do que construímos.')
+        .pauseFor(2000)
+        .typeString('<br/><br/>Desde aquele dia, até a surpresa do nosso noivado...')
+        .pauseFor(2000)
+        .typeString('<br/><br/>Tudo me trouxe exatamente para onde eu deveria estar.')
+        .start();
+    }
+
+    // Transição final quando o áudio acaba
+    audio.onended = function() {
+      clearInterval(intervaloFotos);
+      document.getElementById('tela-historia').classList.remove('ativa');
+      document.getElementById('tela-futuro').classList.add('ativa');
+    };
+  </script>
+</body>
+</html>
