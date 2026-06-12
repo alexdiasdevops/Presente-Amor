@@ -61,9 +61,8 @@
 
   <div id="tela-final" class="tela">
     <h2 style="font-size: 2.5rem; color: #e63946;">Você acertou...</h2>
-    <p style="font-size: 1.3rem; text-align: center;">Porque a nossa história já estava traçada.</p>
     <img id="foto-final" src="foto11.png" alt="Nossa foto">
-    <p style="font-size: 1.3rem; font-weight: bold; margin-top: 20px;">Te amo pra caralho, minha nega.</p>
+    <p style="font-size: 1.3rem; font-weight: bold; margin-top: 20px;">Te amo pra caralho minha nega</p>
   </div>
   <script>
     const dataInicio = new Date('2025-12-19');
@@ -89,9 +88,9 @@
     function iniciarSurpresa() {
       document.getElementById('tela-inicial').classList.remove('ativa');
       document.getElementById('tela-historia').classList.add('ativa');
-      const cfg = { delay: 120 };
+      const cfg = { delay: 100 };
       new Typewriter(document.getElementById('texto1'), cfg)
-        .typeString("Dia 19 de dezembro, o dia em que fui presenteado por Deus... Naquela confraternização, não te notei, mas já estava traçada a nossa história. Sentado no barzinho, quando ficamos a sós, eu comecei a te enxergar... Você me encantou no primeiro instante.<br><br>A gente se beijou e ali eu já senti uma coisa inexplicável. Terminamos a noite num forró e, às cinco da manhã, eu já sabia que tinha esbarrado em alguém diferente. Mas a certeza de que eu estava apaixonado e lascado mesmo foi no dia 27, no Terminal Itaquera. Quando eu virei a esquina e te vi de longe, uma morena pequena, toda de preto... meu coração disparou. <br><br>Hoje, a nossa ligação antes de dormir virou o meu ritual sagrado. Ana, eu amo você e não vejo o meu futuro sem você. Meu maior sonho agora é construir a nossa vida e te esperar no altar para poder cuidar de você para sempre.")
+        .typeString("Dia 19 de dezembro foi quando tudo começou, naquela confraternização, foi onde te conheci e não esperava que Deus havia preparado pra mim, e só precisou nos colocar frente a frente.<br><br>Sentado no barzinho, quando ficamos a sós, eu comecei a notar em você e percebi que você era especial e passei a reparar no seu jeito de ser, e começou a me chamar atenção. Você me encantou no primeiro instante em que eu realmente olhei pra você.<br><br>Então a gente se beijou e ali eu já senti uma coisa diferente, algo que não conhecia ainda. Passamos a noite juntos curtindo o momento, foi o que pensei, mas cada minuto com você era diferente, então às cinco da manhã, eu já sabia que tinha esbarrado em alguém diferente. Isso pude ver na semana após aquela noite em que nos conhecemos ao conversar com você todos os dias.<br><br>Mas a certeza de que eu estava apaixonado e lascado mesmo, foi no dia 27. No Terminal Itaquera nosso primeiro encontro, a ansiedade batendo... Mas quando eu virei a esquina e te vi de longe... uma morena linda pequena, toda de preto. Meu coração disparou. Quando cheguei perto e te beijei, senti o seu cheiro, me acalmei e fomos pro Bar do Major e ali eu entendi que nunca mais ia conseguir desgrudar de você.<br><br>Hoje, a saudade bate o dia todo. A nossa ligação antes de dormir virou o meu ritual sagrado, porque eu não termino o dia bem se não ouvir a sua voz. Ana, eu amo você e não vejo o meu futuro sem você. Meu maior sonho agora é construir a nossa vida juntos. E poder te ver falar sim pra mim no altar.")
         .pauseFor(5000).callFunction(() => {
           document.getElementById('tela-historia').classList.remove('ativa');
           document.getElementById('tela-escolha').classList.add('ativa');
@@ -99,7 +98,7 @@
             document.getElementById('tela-escolha').classList.remove('ativa');
             document.getElementById('tela-segundo').classList.add('ativa');
             new Typewriter(document.getElementById('texto2'), cfg)
-              .typeString("Amor, quando a gente realmente ama alguém, acaba amando essa pessoa duas vezes. A primeira vez é fácil: você se apaixona pelo sorriso. Mas com o tempo você percebe o resto. As inseguranças, os traumas, os medos.<br><br>Mas, se você escolhe ficar, nasce o segundo amor. Eu quero que você saiba que eu já vivo esse segundo amor por você. Eu nunca vou desistir de nós e da nossa vida juntos. Feliz Dia dos Namorados, meu amor.")
+              .typeString("Amor, quando a gente realmente ama alguém, acaba amando essa pessoa duas vezes.<br><br>A primeira vez é fácil: você se apaixona pelo sorriso, pelas piadas, pelo jeito leve de viver. Ama a versão divertida, a que todos conhecem, a que não exige esforço, a que parece perfeita e simples.<br><br>Mas com o tempo você percebe o resto. As inseguranças que ela esconde, os traumas que carrega em silêncio, o jeito como reage ao medo e ao estresse, os lados difíceis de lidar. É nesse momento que muitos vão embora, quando deixa de ser diversão e começa a ser real.<br><br>Mas, se você escolhe ficar, depois de conhecer defeitos e falhas, se entende que amar é atravessar momentos difíceis... nasce o segundo amor. E esse é o que importa de verdade. O primeiro amor simplesmente acontece, mas o segundo é uma escolha. É decidir ficar mesmo quando tudo parece pesado.<br><br>Porque amor verdadeiro não é só um sentimento, é uma decisão que se renova todos os dias. É um amor que se constrói na paciência, na compreensão, na aceitação das imperfeições. É um amor que escolhe crescer juntos. Eu ainda te vejo com os mesmos olhos que aquele dia no terminal.<br><br>Eu quero que você saiba que eu já vivo esse segundo amor por você. Eu nunca vou desistir de nós, da nossa vida juntos e da nossa família.<br><br>Feliz Dia dos Namorados, meu amor.")
               .callFunction(() => { document.getElementById('btn-quiz').style.display = 'block'; }).start();
           }, 3000);
         }).start();
